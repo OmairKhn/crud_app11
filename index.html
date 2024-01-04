@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRUD App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 110px;
+    }
+
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .thumbnail {
+      max-width: 50px;
+      max-height: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <header>
+      <img src="icon.png" alt="not load   " id="icon">
+      <h1>Please Fill The form</h1>
+    </header>
+
+    <form id="crudForm">
+      <label for="name">Name:</label>
+      <div>
+        <input type="text" id="name" name="name" placeholder="Enter Your Name">
+      </div>
+
+      <label for="age">Age:</label>
+      <div>
+        <input type="number" name="age" id="age" placeholder="Enter Your Age">
+      </div>
+
+      <label for="image">Select Image</label>
+      <div>
+        <input type="file" name="image" id="image" accept="image/*">
+      </div>
+
+      <button type="button" onclick="addOrUpdateRecord()">Add/Update Record</button>
+    </form>
+
+    <table id="recordsTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Image</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <script>
+      const form = document.getElementById('crudForm');
+      const tableBody = document.querySelector('#recordsTable tbody');
+      const records = [];
+
+      function addOrUpdateRecord() {
+        const name = document.getElementById('name').value;
+        const age = document.getElementById('age').value;
+        const imageInput = document.getElementById('image');
+        const image = imageInput.files[0];
+
+        if (name && age && image) {
+          const existingRecordIndex = records.findIndex(record => record.name === name);
+
+          if (existingRecordIndex === -1) {
+            // Add a new record if it doesn't exist
+            const newRecord = { name, age, image: URL.createObjectURL(image) };
+            records.push(newRecord);
+            appendRecordToTable(newRecord);
+          } else {
+            // Update the existing record
+            records[existingRecordIndex] = { name, age, image: URL.createObjectURL(image) };
+            updateTable();
+          }
+
+          form.reset();
+        }
+      }
+
+      function appendRecordToTable(record) {
+        const newRow = tableBody.insertRow();
+        const cell1 = newRow.insertCell(0);
+        const cell2 = newRow.insertCell(1);
+        const cell3 = newRow.insertCell(2);
+        const cell4 = newRow.insertCell(3);
+
+        cell1.textContent = record.name;
+        cell2.textContent = record.age;
+        cell3.innerHTML = `<img src="${record.image}" alt="${record.name}" class="thumbnail">`;
+        cell4.innerHTML = '<button onclick="editRecord(this)">Edit</button> <button onclick="deleteRecord(this)">Delete</button>';
+      }
+
+      function updateTable() {
+        // Clear existing rows
+        tableBody.innerHTML = '';
+
+        // Append updated records to the table
+        records.forEach(record => appendRecordToTable(record));
+      }
+
+      function editRecord(button) {
+        const row = button.parentNode.parentNode;
+        const cells = row.children;
+
+        // Populate the form fields with existing values
+        document.getElementById('name').value = cells[0].textContent;
+        document.getElementById('age').value = cells[1].textContent;
+      }
+
+      function deleteRecord(button) {
+        const row = button.parentNode.parentNode;
+        const nameToDelete = row.cells[0].textContent;
+        const indexToDelete = records.findIndex(record => record.name === nameToDelete);
+
+        if (indexToDelete !== -1) {
+          records.splice(indexToDelete, 1);
+          updateTable();
+        }
+      }
+    </script>
+  </body>
+</html>

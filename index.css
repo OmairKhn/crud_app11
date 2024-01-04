@@ -1,0 +1,46 @@
+#container{
+    
+    margin-left: 337px;
+    margin-top: -9px;
+    width: 50%;
+    height: 400px;
+    background-color: rgb(152, 134, 113);
+    border-radius: 2px;
+    border-radius: 5px;
+    
+
+
+}
+label{
+    margin-top: 30px;
+margin-left:30px
+}
+input{
+    margin-left: 30px;
+    margin-top: 5px;
+}
+h1{
+    display: inline;
+    margin-left: 100px;
+    margin-bottom: px;
+}
+button{
+    margin-top: 30px;
+    padding: 0px 30px ;
+    background-color: rgb(7, 249, 88);
+    font-size: medium;
+    margin-left: 30px;
+}
+
+
+header{
+    background-color: rgb(174, 155, 131);
+}
+#icon{
+    display: inline-block;
+    padding-left: 18px;
+    padding-top: 10px;
+   
+
+}
+
