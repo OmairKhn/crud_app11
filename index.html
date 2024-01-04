@@ -18,7 +18,7 @@
     }
 
     table, th, td {
-      border: 1px solid #ddd;
+      border: 1px solid #000000;
     }
 
     th, td {
@@ -34,6 +34,10 @@
     .thumbnail {
       max-width: 50px;
       max-height: 50px;
+    }
+    body{
+
+      background-color: rgb(228, 214, 198);
     }
   </style>
 </head>
@@ -90,15 +94,16 @@
           const existingRecordIndex = records.findIndex(record => record.name === name);
 
           if (existingRecordIndex === -1) {
-            // Add a new record if it doesn't exist
+          
             const newRecord = { name, age, image: URL.createObjectURL(image) };
             records.push(newRecord);
             appendRecordToTable(newRecord);
           } else {
-            // Update the existing record
+         
             records[existingRecordIndex] = { name, age, image: URL.createObjectURL(image) };
             updateTable();
           }
+
 
           form.reset();
         }
@@ -118,10 +123,8 @@
       }
 
       function updateTable() {
-        // Clear existing rows
         tableBody.innerHTML = '';
 
-        // Append updated records to the table
         records.forEach(record => appendRecordToTable(record));
       }
 
@@ -129,7 +132,6 @@
         const row = button.parentNode.parentNode;
         const cells = row.children;
 
-        // Populate the form fields with existing values
         document.getElementById('name').value = cells[0].textContent;
         document.getElementById('age').value = cells[1].textContent;
       }
